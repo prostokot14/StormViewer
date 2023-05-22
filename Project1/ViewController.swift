@@ -19,7 +19,7 @@ class ViewController: UITableViewController {
         
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
+        let items = try! fm.contentsOfDirectory(atPath: path) // in this case we got the path straight from iOS – we didn’t type it in by hand, so if reading from our own app’s bundle doesn’t work then clearly something is very wrong indeed, so that's because we use "try!"
 
         for item in items {
             if item.hasPrefix("nssl") {
