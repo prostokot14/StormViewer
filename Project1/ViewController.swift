@@ -54,7 +54,13 @@ class ViewController: UITableViewController {
     
     @objc func shareTapped() {
         let activityVC = UIActivityViewController(activityItems: ["Hello! This is great app! Try it now!"], applicationActivities: nil)
-        activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+
+        if #available(iOS 16.0, *) {
+            activityVC.popoverPresentationController?.sourceItem = navigationItem.rightBarButtonItem
+        } else {
+            activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        }
+
         present(activityVC, animated: true)
     }
 }
