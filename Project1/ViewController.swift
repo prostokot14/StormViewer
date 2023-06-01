@@ -7,9 +7,11 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
-    var pictures = [String]()
-    
+final class ViewController: UITableViewController {
+    // MARK: - Private Properties
+    private var pictures = [String]()
+
+    // MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +31,8 @@ class ViewController: UITableViewController {
         
         pictures.sort()
     }
-    
+
+    // MARK: - UITableViewController
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }
@@ -51,8 +54,9 @@ class ViewController: UITableViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    @objc func shareTapped() {
+
+    // MARK: - Private Methods
+    @objc private func shareTapped() {
         let activityVC = UIActivityViewController(activityItems: ["Hello! This is great app! Try it now!"], applicationActivities: nil)
 
         if #available(iOS 16.0, *) {
