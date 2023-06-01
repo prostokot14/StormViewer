@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TableViewController.swift
 //  Project1
 //
 //  Created by Антон Кашников on 09.02.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UITableViewController {
+final class TableViewController: UITableViewController {
     // MARK: - Private Properties
     private var pictures = [String]()
 
