@@ -19,23 +19,31 @@ final class TableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         
-        let fm = FileManager.default
-        let path = Bundle.main.resourcePath!
-        let items = try! fm.contentsOfDirectory(atPath: path)
-
-        for picture in pictures {
-            if picture.hasPrefix("nssl") {
-                pictures.append(picture)
-            }
-        }
-        
-        pictures.sort()
+        performSelector(inBackground: #selector(loadImages), with: nil)
     }
 
     // MARK: - Private Methods
     @objc private func shareTapped() {
         let activityVC = UIActivityViewController(activityItems: ["Hello! This is great app! Try it now!"], applicationActivities: nil)
         present(activityVC, animated: true)
+    }
+
+    @objc private func loadImages() {
+        let fm = FileManager.default
+        let path = Bundle.main.resourcePath!
+        let items = try! fm.contentsOfDirectory(atPath: path)
+
+        for item in items {
+            if item.hasPrefix("nssl") {
+                pictures.append(item)
+            }
+        }
+        
+        pictures.sort()
+
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
 
