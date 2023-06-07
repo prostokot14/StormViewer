@@ -41,8 +41,8 @@ final class TableViewController: UITableViewController {
         
         pictures.sort()
 
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 }
