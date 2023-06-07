@@ -32,7 +32,15 @@ final class TableViewController: UITableViewController {
         pictures.sort()
     }
 
-    // MARK: - UITableViewController
+    // MARK: - Private Methods
+    @objc private func shareTapped() {
+        let activityVC = UIActivityViewController(activityItems: ["Hello! This is great app! Try it now!"], applicationActivities: nil)
+        present(activityVC, animated: true)
+    }
+}
+
+// MARK: - UITableViewController
+extension TableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         pictures.count
     }
@@ -58,11 +66,5 @@ final class TableViewController: UITableViewController {
             detailViewController.totalPictures = pictures.count
             navigationController?.pushViewController(detailViewController, animated: true)
         }
-    }
-
-    // MARK: - Private Methods
-    @objc private func shareTapped() {
-        let activityVC = UIActivityViewController(activityItems: ["Hello! This is great app! Try it now!"], applicationActivities: nil)
-        present(activityVC, animated: true)
     }
 }
