@@ -10,6 +10,7 @@ import UIKit
 final class TableViewController: UITableViewController {
     // MARK: - Private Properties
     private var pictures = [String]()
+    private var picturesViewsCount = [String: Int]()
 
     // MARK: - UIViewController
     override func viewDidLoad() {
@@ -40,6 +41,8 @@ final class TableViewController: UITableViewController {
         }
         
         pictures.sort()
+        
+        picturesViewsCount = UserDefaults.standard.object(forKey: "ViewsCount") as? [String: Int] ?? [String: Int]()
 
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
@@ -59,9 +62,11 @@ extension TableViewController {
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
             content.text = pictures[indexPath.row]
+            content.secondaryText = "Views count: \(picturesViewsCount[pictures[indexPath.row], default: 0])"
             cell.contentConfiguration = content
         } else {
             cell.textLabel?.text = pictures[indexPath.row]
+            cell.detailTextLabel?.text = "Views count: \(picturesViewsCount[pictures[indexPath.row], default: 0])"
         }
 
         return cell
@@ -72,7 +77,17 @@ extension TableViewController {
             detailViewController.selectedImage = pictures[indexPath.row]
             detailViewController.selectedPictureNumber = indexPath.row + 1
             detailViewController.totalPictures = pictures.count
-            navigationController?.pushViewController(detailViewController, animated: true)
+            
+            picturesViewsCount[pictures[indexPath.row], default: 0] += 1
+            
+            DispatchQueue.global().async { [weak self] in
+                UserDefaults.standard.set(self?.picturesViewsCount, forKey: "ViewsCount")
+                
+                DispatchQueue.main.async {
+                    self?.navigationController?.pushViewController(detailViewController, animated: true)
+                    self?.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            }
         }
     }
 }
